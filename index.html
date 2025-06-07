@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <title>Stream</title>
+  </head>
+  <body>
+    <style>
+      .block1 {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    left: 50px;
+    top: 50px;
+    background: red;
+    }
+    </style>
+
+    <div class="block1" id="square"></div>
+
+    <script type="text/javascript">
+        var sock = null;
+        var wsuri = "ws://127.0.0.1:1234";
+        
+        window.onload = function() {
+
+            console.log("onload");
+
+            sock = new WebSocket(wsuri);
+
+            sock.onopen = function() {
+                console.log("connected to " + wsuri);
+            }
+            
+            sock.onmessage = function(e) {
+                var div = document.getElementById('square');
+                var arr = e.data.split(" ");
+                div.style.left = arr[0] + "px";
+                div.style.top = arr[1] + "px";
+            }
+        };
+    </script>
+  </body>
+</html>
